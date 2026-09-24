@@ -1,121 +1,208 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { findParcel, SAMPLE_CODES } from '../features/tracking/tracking.js'
+import TrackingResult from '../features/tracking/TrackingResult.vue'
 
-const trackingCode = ref('');
-const whatsappNumber = "447882773759";
-const generalWhatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hello, I am reaching out from the site.')}`;
+const router = useRouter()
+const activeTab = ref('send')
+
+// Send form state
+const destination = ref('United Kingdom')
+const fromPostcode = ref('')
+const toPostcode = ref('')
+const weight = ref('')
+
+const handleSend = () => {
+  router.push('/send')
+}
+
+// Track state
+const trackCode = ref('')
+const trackResult = ref(null)
 
 const handleTrack = () => {
-  if (trackingCode.value.trim()) {
-    const encodedMsg = encodeURIComponent(`Hello, I want to track my parcel with code: ${trackingCode.value}`);
-    window.location.href = `https://wa.me/${whatsappNumber}?text=${encodedMsg}`;
-  } else {
-    window.location.href = generalWhatsappLink;
-  }
-};
+  trackResult.value = findParcel(trackCode.value)
+}
+
+// Return state
+const retailer = ref('')
+const handleReturn = () => {
+  router.push('/returns')
+}
 </script>
 
 <template>
-  <section class="relative bg-evri-navy overflow-hidden min-h-[500px] flex items-center pt-12 pb-20 px-4 sm:px-8">
-    <!-- Background Accents (Exact Evri Parity) -->
-    <div class="absolute right-0 top-0 w-1/2 h-full hidden lg:block">
-      <div class="absolute right-0 top-0 w-full h-full bg-[#2DC5B8] opacity-10 rounded-l-full transform translate-x-1/4 -translate-y-1/4 scale-150"></div>
-    </div>
-
-    <div class="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-      <!-- Left Content: Text -->
-      <div class="text-white space-y-6 animate-fade-up">
-        <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/20">
-          <span class="w-2 h-2 bg-evri-teal rounded-full animate-pulse"></span>
-          <span class="text-xs font-bold uppercase tracking-widest">New feature</span>
-          <span class="text-xs font-medium text-white/80">Check out our ParcelShop locator</span>
+  <section class="bg-[#0047BA] text-white py-12 px-4 sm:px-8 font-sans">
+    <div class="max-w-7xl mx-auto">
+      <!-- Trustpilot Rating Banner -->
+      <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-8 border border-white/15">
+        <span class="text-sm font-extrabold tracking-wide">Great</span>
+        <div class="flex items-center gap-1 text-emerald-400">
+          <svg v-for="i in 5" :key="i" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
         </div>
-
-        <h1 class="text-5xl sm:text-7xl font-black tracking-tighter leading-[0.9] text-white">
-          The delivery people for your world
-        </h1>
-
-        <p class="text-xl text-white/80 font-medium max-w-lg leading-relaxed">
-          Sending, receiving or returning? We make it easy for you to manage your parcels with confidence.
-        </p>
-
-        <div class="flex flex-wrap gap-4 pt-4">
-          <a :href="generalWhatsappLink" class="bg-evri-teal text-evri-navy font-black px-8 py-4 rounded-full hover:bg-white transition-all transform hover:scale-105 uppercase text-sm tracking-widest shadow-lg shadow-evri-teal/20">
-            Send a parcel
-          </a>
-          <a :href="generalWhatsappLink" class="bg-transparent text-white border-2 border-white font-black px-8 py-4 rounded-full hover:bg-white hover:text-evri-navy transition-all uppercase text-sm tracking-widest">
-            Find a ParcelShop
-          </a>
-        </div>
+        <span class="text-xs font-semibold text-white/90">5,709,810 reviews on <span class="font-bold underline">Trustpilot</span></span>
       </div>
 
-      <!-- Right Content: Tracking Widget -->
-      <div class="animate-fade-up delay-100">
-        <div class="bg-white rounded-[2rem] p-8 sm:p-12 shadow-2xl relative">
-          <!-- Widget Tab -->
-          <div class="absolute -top-6 left-12 bg-white px-8 py-3 rounded-t-2xl border-t border-x border-gray-100">
-            <span class="text-evri-navy font-black uppercase text-xs tracking-widest">Track</span>
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-10">
+        A great value parcel delivery &amp; courier service
+      </h1>
+
+      <!-- Main Interactive Widget Box -->
+      <div class="bg-white text-gray-800 rounded-2xl shadow-2xl overflow-hidden max-w-5xl">
+        <!-- Tabs Header -->
+        <div class="flex border-b border-gray-200 bg-gray-50">
+          <button
+            type="button"
+            class="flex-1 py-4 text-center font-extrabold text-base transition-colors border-b-4"
+            :class="activeTab === 'send' ? 'border-[#0047BA] text-[#0047BA] bg-white' : 'border-transparent text-gray-500 hover:text-gray-800'"
+            @click="activeTab = 'send'"
+          >
+            Send
+          </button>
+          <button
+            type="button"
+            class="flex-1 py-4 text-center font-extrabold text-base transition-colors border-b-4"
+            :class="activeTab === 'track' ? 'border-[#0047BA] text-[#0047BA] bg-white' : 'border-transparent text-gray-500 hover:text-gray-800'"
+            @click="activeTab = 'track'"
+          >
+            Track
+          </button>
+          <button
+            type="button"
+            class="flex-1 py-4 text-center font-extrabold text-base transition-colors border-b-4"
+            :class="activeTab === 'return' ? 'border-[#0047BA] text-[#0047BA] bg-white' : 'border-transparent text-gray-500 hover:text-gray-800'"
+            @click="activeTab = 'return'"
+          >
+            Return
+          </button>
+        </div>
+
+        <!-- Tab 1: Send -->
+        <div v-if="activeTab === 'send'" class="p-6 sm:p-10 space-y-6">
+          <!-- Sale Pill -->
+          <div class="inline-block bg-[#E0F7FA] text-[#006064] text-xs font-extrabold px-3 py-1 rounded-full">
+            SALE: Up to £1.27 off 0-2kg parcels
           </div>
 
-          <h2 class="text-3xl font-black text-evri-navy mb-8 tracking-tight">
-            Track your parcel
-          </h2>
+          <div>
+            <h2 class="text-3xl font-black text-[#0C1D30] tracking-tight">
+              SEND from £2.62 <span class="text-lg font-bold text-gray-500">(£2.18 + VAT)</span>
+            </h2>
+            <p class="text-sm text-gray-600 mt-1 font-medium">
+              Pay less for UK parcels up to 15kg vs. Royal Mail Click &amp; Drop**
+            </p>
+          </div>
 
-          <div class="space-y-6">
-            <div class="relative">
-              <label for="tracking" class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
-                Tracking Number
-              </label>
+          <!-- Form Grid -->
+          <form novalidate @submit.prevent="handleSend" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+            <div>
+              <label class="block text-xs font-bold text-gray-600 mb-1">Destination country</label>
+              <select v-model="destination" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none">
+                <option>United Kingdom</option>
+                <option>Ireland</option>
+                <option>France</option>
+                <option>Germany</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-600 mb-1">From postcode *</label>
               <input
-                id="tracking"
-                v-model="trackingCode"
+                v-model="fromPostcode"
                 type="text"
-                placeholder="Enter your 16-character tracking code"
-                class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl px-6 py-5 text-evri-navy font-bold placeholder:text-gray-300 focus:border-evri-teal focus:ring-0 outline-none transition-all text-lg"
-                @keyup.enter="handleTrack"
+                placeholder="e.g. LS1 1AA"
+                class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none"
               />
             </div>
 
-            <button
-              @click="handleTrack"
-              class="w-full bg-evri-teal text-evri-navy font-black py-5 rounded-2xl hover:bg-[#25a59a] transition-all transform active:scale-95 uppercase tracking-widest shadow-xl shadow-evri-teal/20 flex items-center justify-center gap-3"
-            >
-              <span>Track parcel</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </button>
-
-            <div class="pt-4 border-t border-gray-50 text-center">
-              <p class="text-sm text-gray-500 font-medium">
-                Expecting a delivery?
-                <a :href="generalWhatsappLink" class="text-evri-teal font-bold hover:underline ml-1">Manage your delivery</a>
-              </p>
+            <div>
+              <label class="block text-xs font-bold text-gray-600 mb-1">To postcode *</label>
+              <input
+                v-model="toPostcode"
+                type="text"
+                placeholder="e.g. SW1A 1AA"
+                class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none"
+              />
             </div>
+
+            <div>
+              <label class="block text-xs font-bold text-gray-600 mb-1">Weight (kg)</label>
+              <select v-model="weight" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none">
+                <option value="">Please select</option>
+                <option>Up to 1kg (Large letter)</option>
+                <option>Up to 2kg (Small parcel)</option>
+                <option>Up to 10kg (Medium parcel)</option>
+                <option>Up to 20kg (Large parcel)</option>
+              </select>
+            </div>
+
+            <div class="lg:col-span-4 flex flex-wrap items-center justify-between gap-4 pt-2">
+              <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs font-bold text-[#0047BA]">
+                <RouterLink to="/restrictions" class="hover:underline">What you can and can't send</RouterLink>
+                <RouterLink to="/prices" class="hover:underline">Parcel size and weight guide</RouterLink>
+                <a href="#" class="hover:underline text-gray-600 font-normal">**See how Evri compares to Royal Mail</a>
+              </div>
+
+              <button
+                type="submit"
+                class="bg-[#333333] hover:bg-black text-white font-black px-8 py-3.5 rounded-lg text-sm uppercase tracking-wider transition-colors ml-auto"
+              >
+                Send a parcel &gt;
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Tab 2: Track -->
+        <div v-if="activeTab === 'track'" class="p-6 sm:p-10 space-y-6">
+          <h2 class="text-3xl font-black text-[#0C1D30] tracking-tight">Track a parcel</h2>
+          <p class="text-sm text-gray-600 font-medium">Enter your reference code to check live scan history.</p>
+          <div class="flex gap-3 max-w-xl">
+            <input
+              v-model="trackCode"
+              type="text"
+              placeholder="e.g. PL 4417 2009 38"
+              class="flex-1 bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none"
+            />
+            <button
+              type="button"
+              class="bg-[#333333] hover:bg-black text-white font-black px-6 py-3 rounded-lg text-sm uppercase tracking-wider transition-colors"
+              @click="handleTrack"
+            >
+              Track
+            </button>
+          </div>
+          <TrackingResult :result="trackResult" class="mt-4" />
+          <div class="pt-2 text-xs text-gray-500">
+            Sample codes: <span class="font-mono font-bold">PL4417200938</span>, <span class="font-mono font-bold">PL8820561147</span>
+          </div>
+        </div>
+
+        <!-- Tab 3: Return -->
+        <div v-if="activeTab === 'return'" class="p-6 sm:p-10 space-y-6">
+          <h2 class="text-3xl font-black text-[#0C1D30] tracking-tight">Send something back</h2>
+          <p class="text-sm text-gray-600 font-medium">Search for your retailer to start a fast, printer-free return.</p>
+          <div class="flex gap-3 max-w-xl">
+            <input
+              v-model="retailer"
+              type="text"
+              placeholder="Start typing a shop name (e.g. Bramble)"
+              class="flex-1 bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none"
+            />
+            <button
+              type="button"
+              class="bg-[#333333] hover:bg-black text-white font-black px-6 py-3 rounded-lg text-sm uppercase tracking-wider transition-colors"
+              @click="handleReturn"
+            >
+              Search
+            </button>
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
-
-<style scoped>
-.animate-fade-up {
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.delay-100 {
-  animation-delay: 0.2s;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style>

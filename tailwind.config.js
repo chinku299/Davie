@@ -5,17 +5,18 @@ export default {
     extend: {
       colors: {
         evri: {
-          navy: '#001A31',
+          blue: '#0047BA',
+          'blue-dark': '#003399',
+          navy: '#0C1D30',
           teal: '#2DC5B8',
-          'teal-dark': '#25a59a',
           gray: '#4A4A4A',
           light: '#F8F9FA'
         },
-        ink: '#001A31',
+        ink: '#0C1D30',
         'ink-soft': '#002D50',
-        flare: '#2DC5B8',
-        'flare-dark': '#25a59a',
-        'flare-ink': '#001A31',
+        flare: '#0047BA',
+        'flare-dark': '#003399',
+        'flare-ink': '#0047BA',
         slate: '#4A4A4A',
         mist: '#F8F9FA'
       },
