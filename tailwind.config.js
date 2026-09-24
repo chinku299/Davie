@@ -21,7 +21,7 @@ export default {
         mist: '#F8F9FA'
       },
       fontFamily: {
-        sans: ['Roboto', 'system-ui', 'sans-serif']
+        sans: ['Inter', 'Roboto', 'system-ui', 'sans-serif']
       },
       borderRadius: {
         card: '1.5rem',
