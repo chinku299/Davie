@@ -5,18 +5,18 @@ export default {
     extend: {
       colors: {
         evri: {
-          blue: '#0047BA',
-          'blue-dark': '#003399',
-          navy: '#0C1D30',
+          blue: '#002D72',          // Official Evri Deep Corporate Blue from evri.com
+          'blue-dark': '#001D4A',
+          navy: '#0A1D33',
           teal: '#2DC5B8',
           gray: '#4A4A4A',
           light: '#F8F9FA'
         },
-        ink: '#0C1D30',
-        'ink-soft': '#002D50',
-        flare: '#0047BA',
-        'flare-dark': '#003399',
-        'flare-ink': '#0047BA',
+        ink: '#0A1D33',
+        'ink-soft': '#001D4A',
+        flare: '#002D72',
+        'flare-dark': '#001D4A',
+        'flare-ink': '#002D72',
         slate: '#4A4A4A',
         mist: '#F8F9FA'
       },

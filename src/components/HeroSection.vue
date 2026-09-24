@@ -33,7 +33,7 @@ const handleReturn = () => {
 </script>
 
 <template>
-  <section class="bg-[#0047BA] text-white py-12 px-4 sm:px-8 font-sans">
+  <section class="bg-evri-blue text-white py-12 px-4 sm:px-8 font-sans">
     <div class="max-w-7xl mx-auto">
       <!-- Trustpilot Rating Banner -->
       <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-8 border border-white/15">
@@ -58,7 +58,7 @@ const handleReturn = () => {
           <button
             type="button"
             class="flex-1 py-4 text-center font-extrabold text-base transition-colors border-b-4"
-            :class="activeTab === 'send' ? 'border-[#0047BA] text-[#0047BA] bg-white' : 'border-transparent text-gray-500 hover:text-gray-800'"
+            :class="activeTab === 'send' ? 'border-evri-blue text-evri-blue bg-white' : 'border-transparent text-gray-500 hover:text-gray-800'"
             @click="activeTab = 'send'"
           >
             Send
@@ -66,7 +66,7 @@ const handleReturn = () => {
           <button
             type="button"
             class="flex-1 py-4 text-center font-extrabold text-base transition-colors border-b-4"
-            :class="activeTab === 'track' ? 'border-[#0047BA] text-[#0047BA] bg-white' : 'border-transparent text-gray-500 hover:text-gray-800'"
+            :class="activeTab === 'track' ? 'border-evri-blue text-evri-blue bg-white' : 'border-transparent text-gray-500 hover:text-gray-800'"
             @click="activeTab = 'track'"
           >
             Track
@@ -74,7 +74,7 @@ const handleReturn = () => {
           <button
             type="button"
             class="flex-1 py-4 text-center font-extrabold text-base transition-colors border-b-4"
-            :class="activeTab === 'return' ? 'border-[#0047BA] text-[#0047BA] bg-white' : 'border-transparent text-gray-500 hover:text-gray-800'"
+            :class="activeTab === 'return' ? 'border-evri-blue text-evri-blue bg-white' : 'border-transparent text-gray-500 hover:text-gray-800'"
             @click="activeTab = 'return'"
           >
             Return
@@ -89,7 +89,7 @@ const handleReturn = () => {
           </div>
 
           <div>
-            <h2 class="text-3xl font-black text-[#0C1D30] tracking-tight">
+            <h2 class="text-3xl font-black text-evri-navy tracking-tight">
               SEND from £2.62 <span class="text-lg font-bold text-gray-500">(£2.18 + VAT)</span>
             </h2>
             <p class="text-sm text-gray-600 mt-1 font-medium">
@@ -101,7 +101,7 @@ const handleReturn = () => {
           <form novalidate @submit.prevent="handleSend" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
             <div>
               <label class="block text-xs font-bold text-gray-600 mb-1">Destination country</label>
-              <select v-model="destination" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none">
+              <select v-model="destination" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-evri-navy focus:border-evri-blue focus:outline-none">
                 <option>United Kingdom</option>
                 <option>Ireland</option>
                 <option>France</option>
@@ -115,7 +115,7 @@ const handleReturn = () => {
                 v-model="fromPostcode"
                 type="text"
                 placeholder="e.g. LS1 1AA"
-                class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none"
+                class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-evri-navy focus:border-evri-blue focus:outline-none"
               />
             </div>
 
@@ -125,13 +125,13 @@ const handleReturn = () => {
                 v-model="toPostcode"
                 type="text"
                 placeholder="e.g. SW1A 1AA"
-                class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none"
+                class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-evri-navy focus:border-evri-blue focus:outline-none"
               />
             </div>
 
             <div>
               <label class="block text-xs font-bold text-gray-600 mb-1">Weight (kg)</label>
-              <select v-model="weight" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none">
+              <select v-model="weight" class="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-evri-navy focus:border-evri-blue focus:outline-none">
                 <option value="">Please select</option>
                 <option>Up to 1kg (Large letter)</option>
                 <option>Up to 2kg (Small parcel)</option>
@@ -141,7 +141,7 @@ const handleReturn = () => {
             </div>
 
             <div class="lg:col-span-4 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs font-bold text-[#0047BA]">
+              <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs font-bold text-evri-blue">
                 <RouterLink to="/restrictions" class="hover:underline">What you can and can't send</RouterLink>
                 <RouterLink to="/prices" class="hover:underline">Parcel size and weight guide</RouterLink>
                 <a href="#" class="hover:underline text-gray-600 font-normal">**See how Evri compares to Royal Mail</a>
@@ -159,14 +159,14 @@ const handleReturn = () => {
 
         <!-- Tab 2: Track -->
         <div v-if="activeTab === 'track'" class="p-6 sm:p-10 space-y-6">
-          <h2 class="text-3xl font-black text-[#0C1D30] tracking-tight">Track a parcel</h2>
+          <h2 class="text-3xl font-black text-evri-navy tracking-tight">Track a parcel</h2>
           <p class="text-sm text-gray-600 font-medium">Enter your reference code to check live scan history.</p>
           <div class="flex gap-3 max-w-xl">
             <input
               v-model="trackCode"
               type="text"
               placeholder="e.g. PL 4417 2009 38"
-              class="flex-1 bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none"
+              class="flex-1 bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-evri-navy focus:border-evri-blue focus:outline-none"
             />
             <button
               type="button"
@@ -184,14 +184,14 @@ const handleReturn = () => {
 
         <!-- Tab 3: Return -->
         <div v-if="activeTab === 'return'" class="p-6 sm:p-10 space-y-6">
-          <h2 class="text-3xl font-black text-[#0C1D30] tracking-tight">Send something back</h2>
+          <h2 class="text-3xl font-black text-evri-navy tracking-tight">Send something back</h2>
           <p class="text-sm text-gray-600 font-medium">Search for your retailer to start a fast, printer-free return.</p>
           <div class="flex gap-3 max-w-xl">
             <input
               v-model="retailer"
               type="text"
               placeholder="Start typing a shop name (e.g. Bramble)"
-              class="flex-1 bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-[#0C1D30] focus:border-[#0047BA] focus:outline-none"
+              class="flex-1 bg-gray-50 border border-gray-300 rounded-lg p-3 text-sm font-bold text-evri-navy focus:border-evri-blue focus:outline-none"
             />
             <button
               type="button"

@@ -19,7 +19,7 @@ const navItems = [
 <template>
   <header class="w-full font-sans shadow-md">
     <!-- Top Utility Bar -->
-    <div class="bg-[#0C1D30] text-white py-2 px-4 sm:px-8 text-xs font-semibold flex justify-between items-center">
+    <div class="bg-evri-navy text-white py-2 px-4 sm:px-8 text-xs font-semibold flex justify-between items-center">
       <div class="flex items-center gap-6">
         <RouterLink to="/" class="hover:text-evri-teal transition-colors">Home</RouterLink>
         <RouterLink to="/help" class="hover:text-evri-teal transition-colors">News & Corporate</RouterLink>
@@ -30,13 +30,13 @@ const navItems = [
       </div>
     </div>
 
-    <!-- Main Navigation Bar (Evri Royal Blue) -->
-    <div class="bg-[#0047BA] text-white px-4 sm:px-8 py-3">
+    <!-- Main Navigation Bar (Evri Deep Corporate Blue #002D72) -->
+    <div class="bg-evri-blue text-white px-4 sm:px-8 py-3">
       <div class="max-w-7xl mx-auto flex items-center justify-between">
         <!-- Logo Box -->
         <RouterLink to="/" class="flex items-center">
           <div class="bg-white px-3 py-1.5 rounded flex flex-col items-center shadow-sm">
-            <span class="text-xl font-black tracking-tight text-[#0047BA] leading-none">EVRI</span>
+            <span class="text-xl font-black tracking-tight text-evri-blue leading-none">EVRI</span>
             <span class="text-[8px] font-bold text-gray-500 uppercase tracking-tighter mt-0.5">delivery made for you</span>
           </div>
         </RouterLink>
@@ -53,7 +53,7 @@ const navItems = [
           </RouterLink>
         </nav>
 
-        <!-- Right Side Icons / Search if any -->
+        <!-- Right Side Search -->
         <div class="hidden lg:flex items-center gap-4 text-white/90">
           <button type="button" class="p-2 hover:text-white" aria-label="Search">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,7 +75,7 @@ const navItems = [
     </div>
 
     <!-- Mobile Menu Drawer -->
-    <div v-if="isMobileMenuOpen" class="lg:hidden bg-[#0047BA] text-white border-t border-white/10 px-4 py-6 space-y-4">
+    <div v-if="isMobileMenuOpen" class="lg:hidden bg-evri-blue text-white border-t border-white/10 px-4 py-6 space-y-4">
       <RouterLink
         v-for="item in navItems"
         :key="item.name"
@@ -86,8 +86,8 @@ const navItems = [
         {{ item.name }}
       </RouterLink>
       <div class="pt-4 border-t border-white/20 flex gap-4">
-        <RouterLink to="/sign-in" class="flex-1 bg-white text-[#0047BA] py-3 text-center font-bold rounded-lg" @click="isMobileMenuOpen = false">Log in</RouterLink>
-        <RouterLink to="/sign-in" class="flex-1 bg-evri-teal text-[#0C1D30] py-3 text-center font-bold rounded-lg" @click="isMobileMenuOpen = false">Sign up</RouterLink>
+        <RouterLink to="/sign-in" class="flex-1 bg-white text-evri-blue py-3 text-center font-bold rounded-lg" @click="isMobileMenuOpen = false">Log in</RouterLink>
+        <RouterLink to="/sign-in" class="flex-1 bg-evri-teal text-evri-navy py-3 text-center font-bold rounded-lg" @click="isMobileMenuOpen = false">Sign up</RouterLink>
       </div>
     </div>
   </header>
