@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import BrandMark from './BrandMark.vue'
 
 const router = useRouter()
 const isMobileMenuOpen = ref(false)
@@ -35,10 +36,7 @@ const navItems = [
       <div class="max-w-7xl mx-auto flex items-center justify-between">
         <!-- Logo Box -->
         <RouterLink to="/" class="flex items-center">
-          <div class="bg-white px-3 py-1.5 rounded flex flex-col items-center shadow-sm">
-            <span class="text-xl font-black tracking-tight text-evri-blue leading-none">EVRI</span>
-            <span class="text-[8px] font-bold text-gray-500 uppercase tracking-tighter mt-0.5">delivery made for you</span>
-          </div>
+          <BrandMark />
         </RouterLink>
 
         <!-- Desktop Navigation Items -->

@@ -1,16 +1,14 @@
 <script setup>
 defineProps({
-  tone: { type: String, default: 'dark' } // 'dark' on light backgrounds, 'light' on dark
+  tone: { type: String, default: 'dark' }
 })
 </script>
 
 <template>
-  <span class="inline-flex items-center gap-2.5">
-    <span
-      class="text-3xl font-black tracking-tighter"
-      :class="tone === 'light' ? 'text-white' : 'text-[#001A31]'"
-    >
-      evri
+  <div class="bg-white px-3 py-1.5 rounded flex flex-col items-center shadow-sm">
+    <span class="text-xl font-black tracking-tight leading-none">
+      <span class="text-[#002D72]">EVR</span><span class="text-[#FF4500]">I</span>
     </span>
-  </span>
+    <span class="text-[8px] font-bold text-gray-500 uppercase tracking-tighter mt-0.5">delivery made for you</span>
+  </div>
 </template>
