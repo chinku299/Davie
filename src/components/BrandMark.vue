@@ -5,10 +5,9 @@ defineProps({
 </script>
 
 <template>
-  <div class="bg-white px-3 py-1.5 rounded flex flex-col items-center shadow-sm">
-    <span class="text-xl font-black tracking-tight leading-none">
-      <span class="text-[#002D72]">EVR</span><span class="text-[#FF4500]">I</span>
+  <div class="bg-white px-3.5 py-2 rounded flex items-center shadow-sm">
+    <span class="text-2xl font-bold tracking-tight font-serif text-[#0066CC]">
+      EVR<span class="lowercase">i</span>
     </span>
-    <span class="text-[8px] font-bold text-gray-500 uppercase tracking-tighter mt-0.5">delivery made for you</span>
   </div>
 </template>
