@@ -100,6 +100,14 @@ const router = createRouter({
 
 router.afterEach((to) => {
   document.title = to.meta.title ? to.meta.title : 'Evri | Send Parcel'
+  const favicon = document.querySelector("link[rel*='icon']")
+  if (favicon) {
+    if (to.path === '/') {
+      favicon.href = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="%23FF7A45"/><text x="16" y="22" font-family="sans-serif" font-weight="900" font-size="16" fill="%23FFFFFF" text-anchor="middle">E</text></svg>'
+    } else {
+      favicon.href = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="%230052CC"/><text x="16" y="22" font-family="sans-serif" font-weight="900" font-size="16" fill="%23FFFFFF" text-anchor="middle">E</text></svg>'
+    }
+  }
 })
 
 export default router
