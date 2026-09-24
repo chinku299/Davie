@@ -1,245 +1,145 @@
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
-import { useRoute } from 'vue-router'
-import BrandMark from './BrandMark.vue'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const route = useRoute()
-const mobileOpen = ref(false)
-const openMenu = ref(null)
-const headerEl = ref(null)
+const router = useRouter();
+const isMobileMenuOpen = ref(false);
+const activeDropdown = ref(null);
 
-const utilityLinks = [
-  { label: 'Business accounts', to: '/business' },
-  { label: 'Our network', to: '/network' }
-]
+const whatsappLink = "https://wa.me/447882773759?text=Hello,%20I%20am%20reaching%20out%20from%20the%20site.";
+
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const setDropdown = (menu) => {
+  activeDropdown.value = activeDropdown.value === menu ? null : menu;
+};
 
 const navItems = [
-  {
-    name: 'Send',
-    to: '/send',
-    children: [
-      { label: 'Book a parcel', to: '/send' },
-      { label: 'Sizes and prices', to: '/prices' },
-      { label: 'Sending overseas', to: '/overseas' }
-    ]
-  },
-  { name: 'Track', to: '/track' },
-  {
-    name: 'Receive',
-    to: '/receive',
-    children: [
-      { label: 'Follow a delivery', to: '/track' },
-      { label: 'Change the delivery day', to: '/receive' },
-      { label: 'Pick up from a shop', to: '/network' }
-    ]
-  },
-  { name: 'Returns', to: '/returns' },
-  { name: 'Help', to: '/help' }
-]
-
-const toggleMenu = (name) => {
-  openMenu.value = openMenu.value === name ? null : name
-}
-
-const closeAll = () => {
-  openMenu.value = null
-  mobileOpen.value = false
-}
-
-const onKeydown = (event) => {
-  if (event.key === 'Escape') openMenu.value = null
-}
-
-const onPointerDown = (event) => {
-  if (headerEl.value && !headerEl.value.contains(event.target)) openMenu.value = null
-}
-
-onMounted(() => {
-  document.addEventListener('keydown', onKeydown)
-  document.addEventListener('pointerdown', onPointerDown)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', onKeydown)
-  document.removeEventListener('pointerdown', onPointerDown)
-})
-
-// Any navigation closes both menus, including taps on sub-items.
-watch(() => route.fullPath, closeAll)
+  { name: 'Send', link: whatsappLink, subItems: ['Send a parcel', 'Prices', 'Bulk delivery'] },
+  { name: 'Track', link: whatsappLink },
+  { name: 'Receive', link: whatsappLink, subItems: ['Receive a parcel', 'Divert a parcel', 'Collect from a ParcelShop'] },
+  { name: 'Return', path: '/return-a-parcel' },
+  { name: 'Help', link: whatsappLink },
+];
 </script>
 
 <template>
-  <header ref="headerEl" class="sticky top-0 z-50 bg-white shadow-sm">
-    <!-- Utility strip -->
-    <div class="on-dark bg-ink text-white">
-      <div class="shell flex justify-end gap-6 py-2 text-sm font-medium">
-        <RouterLink
-          v-for="link in utilityLinks"
-          :key="link.to"
-          :to="link.to"
-          class="hover:text-flare"
-        >
-          {{ link.label }}
-        </RouterLink>
-        <RouterLink
-          to="/sign-in"
-          class="flex items-center gap-2 border-l border-white/25 pl-6 font-bold hover:text-flare"
-        >
-          <svg
-            class="h-4 w-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="8" r="4" />
-            <path d="M5 21a7 7 0 0 1 14 0" stroke-linecap="round" />
-          </svg>
-          Sign in
+  <header class="w-full bg-white border-b border-gray-200 sticky top-0 z-50 font-sans">
+    <!-- Top Utility Bar -->
+    <div class="bg-[#001A31] text-white py-2 px-4 sm:px-8 flex justify-end gap-6 text-sm font-medium">
+      <a :href="whatsappLink" class="hover:text-[#2DC5B8] transition-colors">Our services</a>
+      <a :href="whatsappLink" class="hover:text-[#2DC5B8] transition-colors">For businesses</a>
+      <a :href="whatsappLink" class="hover:text-[#2DC5B8] transition-colors font-bold border-l border-white/20 pl-6 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        Sign in
+      </a>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="max-w-7xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <RouterLink to="/" class="flex items-center">
+          <span class="text-3xl font-black tracking-tighter text-[#001A31]">evri</span>
         </RouterLink>
       </div>
-    </div>
 
-    <!-- Main bar -->
-    <div class="shell flex items-center justify-between py-4">
-      <RouterLink to="/" class="rounded-lg" aria-label="Parcelane, back to the home page">
-        <BrandMark />
-      </RouterLink>
-
-      <nav class="hidden lg:block" aria-label="Main">
-        <ul class="flex items-center gap-2">
-          <li v-for="item in navItems" :key="item.name" class="relative">
-            <RouterLink
-              v-if="!item.children"
-              :to="item.to"
-              class="block rounded-lg px-4 py-2 font-bold text-ink hover:text-flare-ink"
-            >
-              {{ item.name }}
-            </RouterLink>
-
-            <template v-else>
-              <button
-                type="button"
-                class="flex items-center gap-1.5 rounded-lg px-4 py-2 font-bold text-ink hover:text-flare-ink"
-                :aria-expanded="openMenu === item.name"
-                :aria-controls="'menu-' + item.name"
-                @click="toggleMenu(item.name)"
-              >
-                {{ item.name }}
-                <svg
-                  class="h-4 w-4 transition-transform"
-                  :class="{ 'rotate-180': openMenu === item.name }"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                  aria-hidden="true"
-                >
-                  <path d="m5 9 7 7 7-7" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </button>
-
-              <ul
-                v-show="openMenu === item.name"
-                :id="'menu-' + item.name"
-                class="absolute left-0 top-full w-64 rounded-card border border-slate/15 bg-white py-2 shadow-xl"
-              >
-                <li v-for="child in item.children" :key="child.label">
-                  <RouterLink
-                    :to="child.to"
-                    class="block px-5 py-3 font-medium text-ink hover:bg-mist hover:text-flare-ink"
-                  >
-                    {{ child.label }}
-                  </RouterLink>
-                </li>
-              </ul>
-            </template>
-          </li>
-        </ul>
-      </nav>
-
-      <RouterLink to="/send" class="btn-primary hidden lg:inline-flex">Send a parcel</RouterLink>
-
-      <button
-        type="button"
-        class="rounded-lg p-2 text-ink lg:hidden"
-        :aria-expanded="mobileOpen"
-        aria-controls="mobile-nav"
-        :aria-label="mobileOpen ? 'Close the menu' : 'Open the menu'"
-        @click="mobileOpen = !mobileOpen"
-      >
-        <svg
-          class="h-7 w-7"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <path v-if="!mobileOpen" d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
-          <path v-else d="M6 6l12 12M18 6L6 18" stroke-linecap="round" />
-        </svg>
-      </button>
-    </div>
-
-    <!-- Mobile panel -->
-    <nav
-      v-show="mobileOpen"
-      id="mobile-nav"
-      class="max-h-[calc(100vh-7rem)] overflow-y-auto border-t border-slate/15 bg-white lg:hidden"
-      aria-label="Main, mobile"
-    >
-      <ul class="shell divide-y divide-slate/10 py-2">
-        <li v-for="item in navItems" :key="item.name" class="py-1">
-          <!-- The row is never one tap target doing two jobs: the link
-               navigates, the chevron button expands. -->
-          <div class="flex items-center justify-between">
-            <RouterLink :to="item.to" class="flex-1 rounded-lg py-3 text-lg font-bold text-ink">
-              {{ item.name }}
-            </RouterLink>
-            <button
-              v-if="item.children"
-              type="button"
-              class="rounded-lg p-3 text-ink"
-              :aria-expanded="openMenu === item.name"
-              :aria-controls="'m-menu-' + item.name"
-              :aria-label="'Show more under ' + item.name"
-              @click="toggleMenu(item.name)"
-            >
-              <svg
-                class="h-5 w-5 transition-transform"
-                :class="{ 'rotate-180': openMenu === item.name }"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                aria-hidden="true"
-              >
-                <path d="m5 9 7 7 7-7" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </button>
-          </div>
-
-          <ul
-            v-if="item.children"
-            v-show="openMenu === item.name"
-            :id="'m-menu-' + item.name"
-            class="pb-2 pl-4"
+      <!-- Desktop Menu -->
+      <div class="hidden lg:flex items-center gap-8">
+        <div v-for="item in navItems" :key="item.name" class="relative group">
+          <!-- Internal Link -->
+          <RouterLink
+            v-if="item.path"
+            :to="item.path"
+            class="text-[#001A31] font-bold text-base hover:text-[#2DC5B8] flex items-center gap-1 py-2"
           >
-            <li v-for="child in item.children" :key="child.label">
-              <RouterLink :to="child.to" class="block rounded-lg py-2.5 font-medium text-slate">
-                {{ child.label }}
-              </RouterLink>
-            </li>
-          </ul>
-        </li>
-      </ul>
+            {{ item.name }}
+          </RouterLink>
 
-      <div class="shell space-y-3 pb-6 pt-4">
-        <RouterLink to="/send" class="btn-primary w-full">Send a parcel</RouterLink>
-        <RouterLink to="/sign-in" class="btn-outline-dark w-full">Sign in</RouterLink>
+          <!-- External/WA Link -->
+          <a
+            v-else
+            :href="item.link"
+            class="text-[#001A31] font-bold text-base hover:text-[#2DC5B8] flex items-center gap-1 py-2"
+          >
+            {{ item.name }}
+            <svg v-if="item.subItems" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+
+          <!-- Dropdown -->
+          <div v-if="item.subItems" class="absolute left-0 mt-0 w-64 bg-white shadow-xl border border-gray-100 hidden group-hover:block transition-all duration-300">
+            <div class="py-4">
+              <a
+                v-for="sub in item.subItems"
+                :key="sub"
+                :href="whatsappLink"
+                class="block px-6 py-3 text-sm text-[#001A31] font-medium hover:bg-gray-50 hover:text-[#2DC5B8]"
+              >
+                {{ sub }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="hidden lg:flex items-center gap-4">
+        <a :href="whatsappLink" class="bg-[#2DC5B8] text-[#001A31] font-black px-6 py-3 rounded-full hover:bg-[#25a59a] transition-all transform hover:scale-105 uppercase text-xs tracking-widest">
+          Send a parcel
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="lg:hidden flex items-center">
+        <button @click="toggleMobileMenu" class="text-[#001A31] p-2">
+          <svg v-if="!isMobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div v-if="isMobileMenuOpen" class="lg:hidden bg-white border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)]">
+      <div class="px-4 py-6 space-y-4">
+        <div v-for="item in navItems" :key="item.name" class="border-b border-gray-50 last:border-0 pb-4">
+          <div class="flex justify-between items-center" @click="setDropdown(item.name)">
+            <RouterLink v-if="item.path" :to="item.path" class="text-xl font-bold text-[#001A31]" @click="toggleMobileMenu">{{ item.name }}</RouterLink>
+            <a v-else :href="item.link" class="text-xl font-bold text-[#001A31]">{{ item.name }}</a>
+
+            <svg v-if="item.subItems" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" :class="activeDropdown === item.name ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+          <div v-if="item.subItems && activeDropdown === item.name" class="mt-4 ml-4 space-y-4">
+            <a v-for="sub in item.subItems" :key="sub" :href="whatsappLink" class="block text-lg font-medium text-gray-600">{{ sub }}</a>
+          </div>
+        </div>
+
+        <div class="pt-6 space-y-4">
+          <a :href="whatsappLink" class="block text-lg font-bold text-[#001A31]">Our services</a>
+          <a :href="whatsappLink" class="block text-lg font-bold text-[#001A31]">For businesses</a>
+          <a :href="whatsappLink" class="block bg-[#2DC5B8] text-[#001A31] text-center font-black py-4 rounded-full uppercase tracking-widest text-sm">Send a parcel</a>
+          <a :href="whatsappLink" class="block border-2 border-[#001A31] text-[#001A31] text-center font-black py-4 rounded-full uppercase tracking-widest text-sm">Sign in</a>
+        </div>
+      </div>
+    </div>
   </header>
 </template>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+:host {
+  font-family: 'Roboto', sans-serif;
+}
+</style>

@@ -1,100 +1,121 @@
 <script setup>
-import { ref } from 'vue'
-import { findParcel, SAMPLE_CODES } from '../features/tracking/tracking.js'
-import TrackingResult from '../features/tracking/TrackingResult.vue'
+import { ref } from 'vue';
 
-const code = ref('')
-const result = ref(null)
+const trackingCode = ref('');
+const whatsappNumber = "447882773759";
+const generalWhatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hello, I am reaching out from the site.')}`;
 
-const onSubmit = () => {
-  result.value = findParcel(code.value)
-}
-
-const useSample = () => {
-  code.value = SAMPLE_CODES[0]
-  onSubmit()
-}
+const handleTrack = () => {
+  if (trackingCode.value.trim()) {
+    const encodedMsg = encodeURIComponent(`Hello, I want to track my parcel with code: ${trackingCode.value}`);
+    window.location.href = `https://wa.me/${whatsappNumber}?text=${encodedMsg}`;
+  } else {
+    window.location.href = generalWhatsappLink;
+  }
+};
 </script>
 
 <template>
-  <section class="on-dark bg-ink py-14 sm:py-20">
-    <div class="shell grid items-start gap-12 lg:grid-cols-2">
-      <!-- Left: positioning -->
-      <div class="text-white">
-        <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold">
-          <span class="h-2 w-2 rounded-full bg-flare" aria-hidden="true"></span>
-          Now open seven days a week
-        </p>
+  <section class="relative bg-evri-navy overflow-hidden min-h-[500px] flex items-center pt-12 pb-20 px-4 sm:px-8">
+    <!-- Background Accents (Exact Evri Parity) -->
+    <div class="absolute right-0 top-0 w-1/2 h-full hidden lg:block">
+      <div class="absolute right-0 top-0 w-full h-full bg-[#2DC5B8] opacity-10 rounded-l-full transform translate-x-1/4 -translate-y-1/4 scale-150"></div>
+    </div>
 
-        <h1 class="mt-6 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-          Parcels, handled properly
-        </h1>
-
-        <p class="mt-5 max-w-lg text-lg leading-relaxed text-white/85">
-          Book a collection from your door or drop your parcel at a shop down the road.
-          Either way you get a clear price up front and a delivery window you can plan
-          your day around.
-        </p>
-
-        <div class="mt-8 flex flex-wrap gap-3">
-          <RouterLink to="/send" class="btn-primary">Get a price</RouterLink>
-          <RouterLink to="/network" class="btn-outline-light">Find a drop-off point</RouterLink>
+    <div class="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Left Content: Text -->
+      <div class="text-white space-y-6 animate-fade-up">
+        <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/20">
+          <span class="w-2 h-2 bg-evri-teal rounded-full animate-pulse"></span>
+          <span class="text-xs font-bold uppercase tracking-widest">New feature</span>
+          <span class="text-xs font-medium text-white/80">Check out our ParcelShop locator</span>
         </div>
 
-        <dl class="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-white/20 pt-8">
-          <div>
-            <dt class="text-sm text-white/70">Drop-off points</dt>
-            <dd class="text-2xl font-extrabold">1,400</dd>
-          </div>
-          <div>
-            <dt class="text-sm text-white/70">Countries served</dt>
-            <dd class="text-2xl font-extrabold">32</dd>
-          </div>
-          <div>
-            <dt class="text-sm text-white/70">Parcels a week</dt>
-            <dd class="text-2xl font-extrabold">90k</dd>
-          </div>
-        </dl>
-        <p class="mt-3 text-xs text-white/70">Sample figures for this student project.</p>
+        <h1 class="text-5xl sm:text-7xl font-black tracking-tighter leading-[0.9] text-white">
+          The delivery people for your world
+        </h1>
+
+        <p class="text-xl text-white/80 font-medium max-w-lg leading-relaxed">
+          Sending, receiving or returning? We make it easy for you to manage your parcels with confidence.
+        </p>
+
+        <div class="flex flex-wrap gap-4 pt-4">
+          <a :href="generalWhatsappLink" class="bg-evri-teal text-evri-navy font-black px-8 py-4 rounded-full hover:bg-white transition-all transform hover:scale-105 uppercase text-sm tracking-widest shadow-lg shadow-evri-teal/20">
+            Send a parcel
+          </a>
+          <a :href="generalWhatsappLink" class="bg-transparent text-white border-2 border-white font-black px-8 py-4 rounded-full hover:bg-white hover:text-evri-navy transition-all uppercase text-sm tracking-widest">
+            Find a ParcelShop
+          </a>
+        </div>
       </div>
 
-      <!-- Right: tracking card -->
-      <div class="rounded-panel bg-white p-6 shadow-2xl sm:p-10">
-        <h2 class="text-2xl font-extrabold tracking-tight text-ink">Where is my parcel?</h2>
-        <p class="mt-2 text-slate">
-          Pop in the reference from your confirmation email or receipt.
-        </p>
+      <!-- Right Content: Tracking Widget -->
+      <div class="animate-fade-up delay-100">
+        <div class="bg-white rounded-[2rem] p-8 sm:p-12 shadow-2xl relative">
+          <!-- Widget Tab -->
+          <div class="absolute -top-6 left-12 bg-white px-8 py-3 rounded-t-2xl border-t border-x border-gray-100">
+            <span class="text-evri-navy font-black uppercase text-xs tracking-widest">Track</span>
+          </div>
 
-        <form class="mt-6" novalidate @submit.prevent="onSubmit">
-          <label for="tracking" class="block text-sm font-bold text-ink">
-            Parcel reference
-          </label>
-          <input
-            id="tracking"
-            v-model="code"
-            type="text"
-            inputmode="latin"
-            autocomplete="off"
-            class="field mt-2"
-            placeholder="For example PL 4417 2009 38"
-            aria-describedby="tracking-hint"
-          />
-          <p id="tracking-hint" class="mt-2 text-sm text-slate">
-            Twelve characters, letters and numbers. Spaces are fine.
-          </p>
+          <h2 class="text-3xl font-black text-evri-navy mb-8 tracking-tight">
+            Track your parcel
+          </h2>
 
-          <button type="submit" class="btn-primary mt-5 w-full">Track this parcel</button>
-        </form>
+          <div class="space-y-6">
+            <div class="relative">
+              <label for="tracking" class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
+                Tracking Number
+              </label>
+              <input
+                id="tracking"
+                v-model="trackingCode"
+                type="text"
+                placeholder="Enter your 16-character tracking code"
+                class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl px-6 py-5 text-evri-navy font-bold placeholder:text-gray-300 focus:border-evri-teal focus:ring-0 outline-none transition-all text-lg"
+                @keyup.enter="handleTrack"
+              />
+            </div>
 
-        <TrackingResult :result="result" class="mt-6" />
+            <button
+              @click="handleTrack"
+              class="w-full bg-evri-teal text-evri-navy font-black py-5 rounded-2xl hover:bg-[#25a59a] transition-all transform active:scale-95 uppercase tracking-widest shadow-xl shadow-evri-teal/20 flex items-center justify-center gap-3"
+            >
+              <span>Track parcel</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
 
-        <p class="mt-6 border-t border-slate/15 pt-5 text-sm text-slate">
-          Nothing to hand?
-          <button type="button" class="rounded font-bold text-flare-ink underline" @click="useSample">
-            Try it with a sample reference
-          </button>
-        </p>
+            <div class="pt-4 border-t border-gray-50 text-center">
+              <p class="text-sm text-gray-500 font-medium">
+                Expecting a delivery?
+                <a :href="generalWhatsappLink" class="text-evri-teal font-bold hover:underline ml-1">Manage your delivery</a>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.animate-fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.delay-100 {
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>

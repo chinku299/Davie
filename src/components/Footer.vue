@@ -1,125 +1,95 @@
 <script setup>
-import BrandMark from './BrandMark.vue'
+const whatsappNumber = "447882773759";
+const getWhatsappLink = (section) => {
+  const message = encodeURIComponent(`Hello, I am reaching out from the footer regarding ${section}.`);
+  return `https://wa.me/${whatsappNumber}?text=${message}`;
+};
 
-const year = new Date().getFullYear()
-
-const columns = [
+const footerColumns = [
   {
-    title: 'Getting help',
-    links: [
-      { label: 'Help centre', to: '/help' },
-      { label: 'Track a parcel', to: '/track' },
-      { label: 'Start a return', to: '/returns' },
-      { label: 'Redirect a delivery', to: '/receive' },
-      { label: 'Talk to someone', to: '/contact' }
-    ]
+    title: 'Help & Support',
+    links: ['Help Centre', 'Track a parcel', 'Return a parcel', 'Divert a parcel', 'Contact us']
   },
   {
-    title: 'Sending',
-    links: [
-      { label: 'Book a parcel', to: '/send' },
-      { label: 'Sizes and prices', to: '/prices' },
-      { label: 'Sending overseas', to: '/overseas' },
-      { label: 'Drop-off points', to: '/network' },
-      { label: 'What we cannot carry', to: '/restrictions' }
-    ]
+    title: 'Our services',
+    links: ['Send a parcel', 'Prices', 'For businesses', 'International', 'ParcelShops']
   },
   {
-    title: 'Business',
-    links: [
-      { label: 'Business accounts', to: '/business' },
-      { label: 'Volume pricing', to: '/prices' },
-      { label: 'Shop integrations', to: '/business' },
-      { label: 'Become a drop-off point', to: '/network' }
-    ]
+    title: 'Our company',
+    links: ['Sustainability', 'Careers', 'Media Centre', 'Modern Slavery Statement', 'Corporate information']
   },
   {
-    title: 'The small print',
-    links: [
-      { label: 'Privacy notice', to: '/privacy' },
-      { label: 'Cookies', to: '/cookies' },
-      { label: 'Terms of carriage', to: '/terms' },
-      { label: 'Accessibility', to: '/accessibility' }
-    ]
+    title: 'Legal',
+    links: ['Privacy Policy', 'Cookie Policy', 'Terms & Conditions', 'Acceptable Use Policy', 'Accessibility']
   }
-]
+];
 
-const socials = [
-  {
-    name: 'Parcelane on Instagram',
-    href: '#',
-    path: 'M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Zm5 5.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm5-1.2h.01'
-  },
-  {
-    name: 'Parcelane on LinkedIn',
-    href: '#',
-    path: 'M5 9v10M5 5.5v.01M10 19v-5.5a3 3 0 0 1 6 0V19M10 9v10'
-  },
-  {
-    name: 'Parcelane on YouTube',
-    href: '#',
-    path: 'M3 8.5A3 3 0 0 1 6 5.5h12a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-7Zm7 1.5 5 2.5-5 2.5V10Z'
-  }
-]
+const socialIcons = [
+  { name: 'Facebook', icon: 'facebook' },
+  { name: 'Twitter', icon: 'twitter' },
+  { name: 'Instagram', icon: 'instagram' },
+  { name: 'LinkedIn', icon: 'linkedin' }
+];
 </script>
 
 <template>
-  <footer class="on-dark bg-ink pb-10 pt-16 text-white">
-    <div class="shell">
-      <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-        <nav v-for="col in columns" :key="col.title" :aria-labelledby="'foot-' + col.title">
-          <h2 :id="'foot-' + col.title" class="text-sm font-bold uppercase tracking-wider text-flare">
+  <footer class="bg-evri-navy text-white pt-20 pb-10 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- Top Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+        <div v-for="col in footerColumns" :key="col.title" class="space-y-6">
+          <h4 class="text-lg font-black tracking-tight text-white uppercase text-xs tracking-[0.2em] opacity-50">
             {{ col.title }}
-          </h2>
-          <ul class="mt-5 space-y-3">
-            <li v-for="link in col.links" :key="link.label">
-              <RouterLink :to="link.to" class="rounded text-white/85 hover:text-white hover:underline">
-                {{ link.label }}
-              </RouterLink>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <div class="mt-14 border-t border-white/20 pt-8">
-        <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <RouterLink to="/" class="rounded-lg" aria-label="Parcelane, back to the home page">
-              <BrandMark tone="light" />
-            </RouterLink>
-            <p class="mt-4 max-w-xl text-sm text-white/75">
-              Parcelane is an invented company. This site is coursework: a front-end
-              build with sample data, not a real delivery service, and nothing here can
-              be bought or booked.
-            </p>
-          </div>
-
-          <ul class="flex gap-3">
-            <li v-for="social in socials" :key="social.name">
+          </h4>
+          <ul class="space-y-4">
+            <li v-for="link in col.links" :key="link">
               <a
-                :href="social.href"
-                class="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 hover:border-flare hover:bg-flare hover:text-ink"
+                :href="getWhatsappLink(link)"
+                class="text-base font-medium text-white/80 hover:text-evri-teal transition-colors"
               >
-                <span class="sr-only">{{ social.name }}</span>
-                <svg
-                  class="h-5 w-5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.9"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path :d="social.path" />
-                </svg>
+                {{ link }}
               </a>
             </li>
           </ul>
         </div>
+      </div>
 
-        <p class="mt-8 text-sm text-white/75">
-          &copy; {{ year }} Parcelane &mdash; a student project.
+      <!-- Divider -->
+      <div class="h-px bg-white/10 w-full mb-10"></div>
+
+      <!-- Bottom Section -->
+      <div class="flex flex-col lg:flex-row justify-between items-center gap-10">
+        <!-- Logo and Copyright -->
+        <div class="text-center lg:text-left space-y-4">
+          <div class="flex justify-center lg:justify-start">
+            <a :href="getWhatsappLink('Home')" class="text-4xl font-black tracking-tighter text-white">evri</a>
+          </div>
+          <p class="text-sm text-white/40 font-medium">
+            © {{ new Date().getFullYear() }} Evri. All rights reserved. Registered in England and Wales.
+          </p>
+        </div>
+
+        <!-- Social Icons -->
+        <div class="flex gap-6">
+          <a
+            v-for="social in socialIcons"
+            :key="social.name"
+            :href="getWhatsappLink(social.name)"
+            class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-evri-teal hover:border-evri-teal hover:text-evri-navy transition-all"
+            :title="social.name"
+          >
+            <span class="sr-only">{{ social.name }}</span>
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Legal Disclaimer -->
+      <div class="mt-16 pt-8 border-t border-white/5">
+        <p class="text-[10px] text-center text-white/20 uppercase tracking-[0.3em] font-black">
+          Powered by Parcel People
         </p>
       </div>
     </div>

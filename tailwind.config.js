@@ -4,16 +4,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#241B3A',
-        'ink-soft': '#3A2D57',
-        flare: '#FF7A45',
-        'flare-dark': '#E8632F',
-        'flare-ink': '#C4471A',
-        slate: '#57506B',
-        mist: '#F5F3F7'
+        evri: {
+          navy: '#001A31',
+          teal: '#2DC5B8',
+          'teal-dark': '#25a59a',
+          gray: '#4A4A4A',
+          light: '#F8F9FA'
+        },
+        ink: '#001A31',
+        'ink-soft': '#002D50',
+        flare: '#2DC5B8',
+        'flare-dark': '#25a59a',
+        'flare-ink': '#001A31',
+        slate: '#4A4A4A',
+        mist: '#F8F9FA'
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
+        sans: ['Roboto', 'system-ui', 'sans-serif']
       },
       borderRadius: {
         card: '1.5rem',
